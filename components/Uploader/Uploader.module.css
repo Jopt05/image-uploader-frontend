@@ -1,0 +1,55 @@
+.softColor {
+  color: #828282;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.hardColor {
+  color: #4F4F4F;
+  font-weight: 500;
+}
+
+.ligthColor {
+  color: #BDBDBD;
+  font-weight: 500;
+}
+
+
+.Uploader {
+  padding: 15px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Uploader_Title {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.Uploader_Body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #97BEF4;
+  background-color: #F6F8FB;
+  width: 90%;
+  min-height: 250px;
+  max-height: 300px;
+  margin: 10px auto;
+  border-radius: 12px;
+}
+
+.Button {
+  background-color: #2F80ED;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+.HiddenInput {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
