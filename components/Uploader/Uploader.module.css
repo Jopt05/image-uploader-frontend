@@ -65,3 +65,14 @@
   position: absolute;
   z-index: -1;
 }
+
+.Error {
+  /* opacity: 0; */
+  color: red;
+  font-weight: 500;
+  transition: opacity .2s ease-in-out;
+}
+
+.ShowError {
+  opacity: 1;
+}

@@ -1,21 +1,41 @@
+import Link from 'next/link'
 import styles from './Successful.module.css'
+import { useState } from 'react';
 
-export default function Successful() {
+export default function Successful(props) {
+
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText(props.data);
+    setCopied(true)
+  }
 
     return (
         <div className={styles.Successful}>
           <p className={styles.Successful_Title}>
             Uploaded Successfully!
           </p>
-          <img className={styles.Successful_Image} src='https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' />
+          <img className={styles.Successful_Image} src={props.data} />
           <div className={styles.Successful_Container}>
             <div className={styles.Successful_Link}>
-              <p>
-                https://www.youtube.com/watch?v=bKaHKDUIXgo&ab_channel=CajadePeliculas
-              </p>
+                <a 
+                  href={props.data}
+                  target='_blank'
+                >
+                  { props.data }
+                </a>
             </div>
-            <button className={styles.Button}>
-              Copy
+            <button 
+              className={`${styles.Button} ${copied ? styles.Copied : ''}`}
+              onClick={handleCopy}
+            >
+              {
+                copied
+                  ? 'Copied!'
+                  : 'Copy'
+              }
             </button>
           </div>
         </div>

@@ -8,14 +8,17 @@ export default function Uploader(props) {
     const [isDragging, setIsDragging] = useState(false);
     const [dragCounter, setDragCounter] = useState(0);
 
+    function stopPropagation(event) {
+        event.preventDefault()
+        event.stopPropagation()
+    }
+
     function handleDrag(e) {
-        e.preventDefault()
-        e.stopPropagation()
+        stopPropagation(e);
     }
 
     function handleDragIn(e) {
-        e.preventDefault()
-        e.stopPropagation()
+        stopPropagation(e)
         setDragCounter( dragCounter + 1 )
         if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
             setIsDragging(true)
@@ -23,19 +26,17 @@ export default function Uploader(props) {
     }
 
     function handleDragOut(e) {
-        e.preventDefault()
-        e.stopPropagation()
+        stopPropagation(e)
         setDragCounter( dragCounter - 1 )
         if ( dragCounter > 0 ) return;
         setIsDragging(false)
     }
 
     function handleDrop(e) {    
-        e.preventDefault()
-        e.stopPropagation()
+        stopPropagation(e)
         setIsDragging(false)
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            handleDrop(e.dataTransfer.files)
+            props.dropHandler(e.dataTransfer.files)
             e.dataTransfer.clearData()
             setDragCounter(0);
         }
@@ -48,14 +49,6 @@ export default function Uploader(props) {
         div.addEventListener('dragleave', handleDragOut)
         div.addEventListener('dragover', handleDrag)
         div.addEventListener('drop', handleDrop)
-
-        return function cleanUp() {
-            let div = uploader.current
-            div.removeEventListener('dragenter', handleDragIn)
-            div.removeEventListener('dragleave', handleDragOut)
-            div.removeEventListener('dragover', handleDrag)
-            div.removeEventListener('drop', handleDrop)
-        }
     }, [uploader])
     
     return (
@@ -72,11 +65,23 @@ export default function Uploader(props) {
                     Drag & Drop your file here
                 </p>
             </div>
+            {
+                props.extraData && (
+                    <p className={styles.Error}>
+                        {props.extraData}
+                    </p>
+                )
+            }
             <p className={styles.softColor}>
             Or
             </p>
             <label className={styles.Button} htmlFor='upload-photo'>Choose a file</label>
-            <input className={styles.HiddenInput} type='file' id='upload-photo'/>
+            <input 
+                className={styles.HiddenInput} 
+                type='file' 
+                id='upload-photo'
+                onChange={(e) => props.dropHandler(e.target.files)}
+            />
         </div>
     )
   }
