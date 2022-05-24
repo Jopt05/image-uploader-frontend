@@ -1,6 +1,62 @@
 import styles from './Uploader.module.css'
+import { useRef, useEffect, useState } from 'react'
 
-export default function Uploader() {
+export default function Uploader(props) {
+
+    const uploader = useRef(null);
+
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragCounter, setDragCounter] = useState(0);
+
+    function handleDrag(e) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
+    function handleDragIn(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        setDragCounter( dragCounter + 1 )
+        if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+            setIsDragging(true)
+        }
+    }
+
+    function handleDragOut(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        setDragCounter( dragCounter - 1 )
+        if ( dragCounter > 0 ) return;
+        setIsDragging(false)
+    }
+
+    function handleDrop(e) {    
+        e.preventDefault()
+        e.stopPropagation()
+        setIsDragging(false)
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            handleDrop(e.dataTransfer.files)
+            e.dataTransfer.clearData()
+            setDragCounter(0);
+        }
+    }
+
+    useEffect(() => {
+        setDragCounter(0)
+        let div = uploader.current
+        div.addEventListener('dragenter', handleDragIn)
+        div.addEventListener('dragleave', handleDragOut)
+        div.addEventListener('dragover', handleDrag)
+        div.addEventListener('drop', handleDrop)
+
+        return function cleanUp() {
+            let div = uploader.current
+            div.removeEventListener('dragenter', handleDragIn)
+            div.removeEventListener('dragleave', handleDragOut)
+            div.removeEventListener('dragover', handleDrag)
+            div.removeEventListener('drop', handleDrop)
+        }
+    }, [uploader])
     
     return (
         <div className={styles.Uploader}>
@@ -10,11 +66,11 @@ export default function Uploader() {
             <p className={styles.softColor}>
             File should be Jpeg, png...
             </p>
-            <div className={styles.Uploader_Body}>
-            <img src='/image.svg' />
-            <p className={styles.softColor}>
-                Drag & Drop your file here
-            </p>
+            <div ref={uploader} className={`${styles.Uploader_Body} ${isDragging ? styles.Uploading : ''}`}>
+                <img src='/image.svg' />
+                <p className={styles.softColor}>
+                    Drag & Drop your file here
+                </p>
             </div>
             <p className={styles.softColor}>
             Or

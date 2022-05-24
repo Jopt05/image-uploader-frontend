@@ -1,0 +1,48 @@
+.Successful {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 10px;
+  }
+  
+  .Successful_Title {
+    font-weight: 500;
+    font-size: 18px;
+  }
+  
+  .Successful_Image {
+    height: 250px;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 15px;
+  }
+  
+  .Successful_Container {
+    display: flex;
+    width: 100%;
+    border: 1px solid #E0E0E0;
+    background-color: #F6F8FB;
+    border-radius: 8px;
+    justify-content: space-around;
+  }
+  
+  .Successful_Link {
+    width: 80%;
+    overflow: hidden;
+  }
+  
+  .Successful_Link p {
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 0px 5px;
+    color: #4F4F4F;
+  }
+  
+  .Button {
+    background-color: #2F80ED;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+  }
