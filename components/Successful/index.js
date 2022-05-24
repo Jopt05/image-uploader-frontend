@@ -23,6 +23,7 @@ export default function Successful(props) {
                 <a 
                   href={props.data}
                   target='_blank'
+                  rel='noreferrer'
                 >
                   { props.data }
                 </a>
